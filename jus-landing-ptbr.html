@@ -66,6 +66,18 @@
     transition: background 0.3s, color 0.3s;
   }
   .nav-cta:hover { background: var(--green); color: var(--black); }
+  .lang-btn {
+    display: flex; align-items: center; gap: 0.4rem;
+    background: rgba(0,232,122,0.08); border: 0.5px solid rgba(0,232,122,0.3);
+    color: var(--green); padding: 0.4rem 0.9rem;
+    font-size: 0.78rem; letter-spacing: 0.06em;
+    font-family: 'Syne', sans-serif; font-weight: 600;
+    cursor: pointer; border-radius: 6px;
+    text-decoration: none; transition: background 0.3s, border-color 0.3s;
+    white-space: nowrap;
+  }
+  .lang-btn:hover { background: rgba(0,232,122,0.18); border-color: var(--green); }
+  .nav-right { display: flex; align-items: center; gap: 0.75rem; }
 
   /* ── HERO ── */
   #hero {
@@ -418,7 +430,10 @@
     <li><a href="#ecossistema">Ecossistema</a></li>
     <li><a href="#investidores">Investidores</a></li>
   </ul>
-  <button class="nav-cta">Entrar no Ecossistema</button>
+  <div class="nav-right">
+    <a href="index.html" class="lang-btn">🇺🇸 EN</a>
+    <button class="nav-cta">Entrar no Ecossistema</button>
+  </div>
 </nav>
 
 <!-- HERO -->
