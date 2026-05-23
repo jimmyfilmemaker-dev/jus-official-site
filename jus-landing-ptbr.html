@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="J-US — A nova economia começa localmente. Conectando pequenos negócios a uma infraestrutura econômica descentralizada com blockchain, cashback, comunidade e IA.">
+<title>J-US — A Nova Economia Começa Localmente</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080a0c;
+    --graphite: #0d1117;
+    --graphite2: #131920;
+    --graphite3: #1a2430;
+    --green: #00e87a;
+    --green2: #00c462;
+    --green-dim: rgba(0,232,122,0.12);
+    --green-glow: rgba(0,232,122,0.25);
+    --silver: #c8d4e0;
+    --silver-dim: rgba(200,212,224,0.5);
+    --white: #f0f4f8;
+    --text-muted: rgba(200,212,224,0.45);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    line-height: 1.7;
+  }
+
+  h1, h2, h3, h4, .logo { font-family: 'Syne', sans-serif; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 4rem;
+    background: rgba(8,10,12,0.7);
+    backdrop-filter: blur(20px);
+    border-bottom: 0.5px solid rgba(0,232,122,0.08);
+  }
+  .logo {
+    font-size: 1.6rem; font-weight: 800;
+    color: var(--white); letter-spacing: -0.02em;
+  }
+  .logo span { color: var(--green); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--silver-dim); text-decoration: none;
+    font-size: 0.85rem; letter-spacing: 0.08em;
+    text-transform: uppercase; transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--green); }
+  .nav-cta {
+    background: transparent; border: 0.5px solid var(--green);
+    color: var(--green); padding: 0.5rem 1.4rem;
+    font-size: 0.82rem; letter-spacing: 0.08em;
+    text-transform: uppercase; cursor: pointer;
+    font-family: 'Syne', sans-serif; font-weight: 600;
+    transition: background 0.3s, color 0.3s;
+  }
+  .nav-cta:hover { background: var(--green); color: var(--black); }
+
+  /* ── HERO ── */
+  #hero {
+    position: relative; min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 8rem 2rem 6rem;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(0,232,122,0.06) 0%, transparent 70%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,232,122,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,232,122,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, black 30%, transparent 100%);
+  }
+  #particle-canvas { position: absolute; inset: 0; pointer-events: none; }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    border: 0.5px solid var(--green-glow); background: var(--green-dim);
+    color: var(--green); font-size: 0.72rem; letter-spacing: 0.15em;
+    text-transform: uppercase; padding: 0.35rem 1rem;
+    border-radius: 999px; margin-bottom: 2rem;
+    position: relative; z-index: 2;
+    animation: fadeUp 1s ease both;
+  }
+  .eyebrow-dot {
+    width: 6px; height: 6px; background: var(--green);
+    border-radius: 50%; animation: pulse 2s ease infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+  .hero-title {
+    font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 800;
+    line-height: 1.05; letter-spacing: -0.03em;
+    margin-bottom: 1.5rem; position: relative; z-index: 2;
+    animation: fadeUp 1s ease 0.15s both;
+  }
+  .hero-title .accent { color: var(--green); }
+  .hero-sub {
+    max-width: 600px; font-size: 1.05rem;
+    color: var(--silver-dim); line-height: 1.8;
+    margin-bottom: 3rem; position: relative; z-index: 2;
+    animation: fadeUp 1s ease 0.3s both;
+  }
+  .hero-btns {
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    position: relative; z-index: 2;
+    animation: fadeUp 1s ease 0.45s both;
+  }
+  .btn-primary {
+    background: var(--green); color: var(--black); border: none;
+    padding: 0.9rem 2.2rem; font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 0.9rem; letter-spacing: 0.05em;
+    cursor: pointer; transition: transform 0.2s, box-shadow 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,232,122,0.3); }
+  .btn-ghost {
+    background: transparent; color: var(--silver);
+    border: 0.5px solid rgba(200,212,224,0.25);
+    padding: 0.9rem 2.2rem; font-family: 'Syne', sans-serif;
+    font-weight: 600; font-size: 0.9rem; letter-spacing: 0.05em;
+    cursor: pointer; transition: border-color 0.3s, color 0.3s;
+  }
+  .btn-ghost:hover { border-color: var(--green); color: var(--green); }
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    opacity: 0.4; z-index: 2; animation: fadeUp 1s ease 1s both;
+  }
+  .hero-scroll span { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--silver); }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--silver), transparent);
+    animation: scrollLine 2s ease infinite;
+  }
+  @keyframes scrollLine {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* ── SEÇÃO BASE ── */
+  section { padding: 7rem 4rem; max-width: 1200px; margin: 0 auto; }
+  .section-wrap { padding: 7rem 0; }
+  .section-wrap > section { padding-left: 4rem; padding-right: 4rem; }
+  .eyebrow-label {
+    display: inline-block; font-size: 0.7rem;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--green); margin-bottom: 1.2rem;
+    font-family: 'Syne', sans-serif; font-weight: 600;
+  }
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 800;
+    line-height: 1.1; letter-spacing: -0.025em; margin-bottom: 1.2rem;
+  }
+  .section-sub { color: var(--silver-dim); font-size: 1rem; max-width: 540px; line-height: 1.8; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── PROBLEMA ── */
+  #problema { background: linear-gradient(180deg, var(--black) 0%, var(--graphite) 100%); padding: 7rem 0; }
+  #problema section { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .problem-items { display: flex; flex-direction: column; gap: 1.5rem; }
+  .problem-item {
+    display: flex; gap: 1rem; align-items: flex-start;
+    padding: 1.4rem 1.5rem;
+    background: rgba(255,255,255,0.02); border: 0.5px solid rgba(255,255,255,0.06);
+    border-left: 2px solid rgba(200,60,60,0.5); transition: border-color 0.3s;
+  }
+  .problem-item:hover { border-left-color: rgba(200,60,60,0.9); }
+  .problem-icon { font-size: 1.4rem; min-width: 32px; margin-top: 0.1rem; }
+  .problem-item h4 {
+    font-family: 'Syne', sans-serif; font-size: 0.95rem;
+    font-weight: 700; margin-bottom: 0.3rem; color: var(--white); letter-spacing: 0.01em;
+  }
+  .problem-item p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+  .problem-visual {
+    position: relative; display: flex; align-items: center;
+    justify-content: center; height: 400px;
+  }
+  .old-system {
+    width: 260px; height: 320px; border: 0.5px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.02); display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 1rem;
+    position: relative; overflow: hidden;
+  }
+  .old-system::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(255,255,255,0.02) 8px, rgba(255,255,255,0.02) 9px);
+  }
+  .old-bar { width: 160px; height: 8px; background: rgba(255,255,255,0.08); border-radius: 2px; }
+  .old-tag {
+    font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(200,60,60,0.6); font-family: 'Syne', sans-serif;
+    border: 0.5px solid rgba(200,60,60,0.2); padding: 0.2rem 0.6rem; margin: 0.3rem;
+  }
+  .vs-badge {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+    width: 48px; height: 48px; background: var(--graphite2);
+    border: 0.5px solid rgba(0,232,122,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif; font-size: 0.75rem;
+    font-weight: 800; color: var(--green); letter-spacing: 0.05em; z-index: 10;
+  }
+
+  /* ── SOLUÇÃO ── */
+  #solucao { background: var(--graphite); }
+  .flow-wrap { display: flex; flex-direction: column; align-items: center; gap: 0; margin-top: 4rem; }
+  .flow-step {
+    display: flex; align-items: center; gap: 2rem;
+    padding: 1.6rem 2.5rem; border: 0.5px solid rgba(0,232,122,0.12);
+    background: rgba(0,232,122,0.03); width: 100%; max-width: 560px;
+    position: relative; transition: border-color 0.4s, background 0.4s, transform 0.3s;
+  }
+  .flow-step:hover { border-color: rgba(0,232,122,0.4); background: rgba(0,232,122,0.07); transform: translateX(6px); }
+  .flow-step:not(:last-child)::after {
+    content: ''; position: absolute; bottom: -36px; left: 50%;
+    transform: translateX(-50%); width: 1px; height: 36px;
+    background: linear-gradient(to bottom, rgba(0,232,122,0.4), rgba(0,232,122,0.05));
+  }
+  .flow-step + .flow-step { margin-top: 36px; }
+  .flow-num {
+    width: 40px; height: 40px; min-width: 40px;
+    border: 0.5px solid var(--green);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: 0.85rem; color: var(--green);
+  }
+  .flow-info h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 0.2rem; color: var(--white); }
+  .flow-info p { font-size: 0.83rem; color: var(--text-muted); }
+  .flow-icon { font-size: 1.4rem; margin-left: auto; }
+
+  /* ── ECOSSISTEMA ── */
+  #ecossistema { background: var(--black); }
+  .eco-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 3.5rem; }
+  .eco-card {
+    padding: 2rem 1.8rem; border: 0.5px solid rgba(200,212,224,0.08);
+    background: rgba(255,255,255,0.02); position: relative;
+    overflow: hidden; transition: border-color 0.4s, transform 0.3s; cursor: default;
+  }
+  .eco-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+    transform: scaleX(0); transition: transform 0.4s;
+  }
+  .eco-card:hover::before { transform: scaleX(1); }
+  .eco-card:hover { border-color: rgba(0,232,122,0.2); transform: translateY(-4px); }
+  .eco-card-glow {
+    position: absolute; bottom: -40px; right: -40px;
+    width: 120px; height: 120px;
+    background: radial-gradient(circle, var(--green-glow), transparent 70%);
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .eco-card:hover .eco-card-glow { opacity: 1; }
+  .eco-card-icon { font-size: 1.8rem; margin-bottom: 1.2rem; display: block; }
+  .eco-card h3 {
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem;
+    margin-bottom: 0.6rem; color: var(--white); letter-spacing: 0.01em;
+  }
+  .eco-card p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.65; }
+  .eco-card-num {
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    font-family: 'Syne', sans-serif; font-size: 0.65rem;
+    font-weight: 800; color: rgba(0,232,122,0.2); letter-spacing: 0.1em;
+  }
+
+  /* ── DIFERENCIAIS ── */
+  #diferenciais { background: var(--graphite); }
+  .diff-table { width: 100%; border-collapse: collapse; margin-top: 3rem; font-size: 0.9rem; }
+  .diff-table th {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    padding: 1rem 1.5rem; text-align: left;
+    font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .diff-table th:first-child { color: var(--text-muted); }
+  .diff-table th.col-old { color: rgba(200,80,80,0.7); border-bottom: 1px solid rgba(200,80,80,0.15); }
+  .diff-table th.col-new { color: var(--green); border-bottom: 1px solid rgba(0,232,122,0.3); }
+  .diff-table td { padding: 1rem 1.5rem; border-bottom: 0.5px solid rgba(255,255,255,0.04); vertical-align: middle; }
+  .diff-table td:first-child { color: var(--text-muted); font-size: 0.82rem; }
+  .diff-table td.old-val { color: rgba(200,80,80,0.6); }
+  .diff-table td.new-val { color: var(--green); font-weight: 500; }
+
+  /* ── INVESTIDORES ── */
+  #investidores { background: var(--black); position: relative; overflow: hidden; }
+  #investidores::before {
+    content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,232,122,0.04), transparent 70%);
+  }
+  .investor-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 3rem; }
+  .metric-card {
+    padding: 2rem; border: 0.5px solid rgba(0,232,122,0.1);
+    background: rgba(0,232,122,0.02); text-align: center;
+  }
+  .metric-val {
+    font-family: 'Syne', sans-serif; font-size: 2.4rem; font-weight: 800;
+    color: var(--green); letter-spacing: -0.02em; display: block; margin-bottom: 0.3rem;
+  }
+  .metric-label { font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); }
+  .chart-area {
+    margin-top: 3rem; border: 0.5px solid rgba(0,232,122,0.1);
+    background: rgba(0,232,122,0.015); padding: 2rem;
+    position: relative; height: 200px; overflow: hidden;
+  }
+  .chart-area svg { width: 100%; height: 100%; }
+  .chart-label {
+    position: absolute; top: 1.5rem; left: 2rem;
+    font-size: 0.72rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text-muted);
+  }
+
+  /* ── VISÃO ── */
+  #visao {
+    position: relative; background: var(--graphite);
+    text-align: center; padding: 9rem 4rem; overflow: hidden;
+  }
+  #visao::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,232,122,0.05), transparent 70%);
+  }
+  .vision-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,232,122,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,232,122,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  #visao .section-title { font-size: clamp(2rem, 5vw, 4rem); margin-bottom: 0; }
+  .vision-quote {
+    max-width: 640px; margin: 2rem auto 3rem;
+    font-size: 1.1rem; line-height: 1.9;
+    color: var(--silver-dim); position: relative; z-index: 2;
+  }
+  .vision-quote strong { color: var(--green); font-weight: 500; }
+  .vision-cta { position: relative; z-index: 2; }
+  .city-lines { position: absolute; inset: 0; pointer-events: none; }
+
+  /* ── RODAPÉ ── */
+  footer {
+    background: var(--black); border-top: 0.5px solid rgba(255,255,255,0.06); padding: 4rem;
+  }
+  .footer-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 3rem; align-items: start;
+  }
+  .footer-brand .logo { font-size: 1.4rem; margin-bottom: 0.5rem; display: block; }
+  .footer-slogan { font-size: 0.82rem; color: var(--text-muted); letter-spacing: 0.05em; }
+  .footer-links h5 {
+    font-family: 'Syne', sans-serif; font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 1rem;
+  }
+  .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .footer-links a { color: var(--silver-dim); text-decoration: none; font-size: 0.88rem; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--green); }
+  .footer-bottom {
+    max-width: 1200px; margin: 2.5rem auto 0;
+    padding-top: 2rem; border-top: 0.5px solid rgba(255,255,255,0.04);
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 0.75rem; color: var(--text-muted);
+  }
+  .footer-green { color: var(--green); }
+
+  /* ── RESPONSIVO ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 5rem 1.5rem; }
+    #problema section { grid-template-columns: 1fr; }
+    .problem-visual { display: none; }
+    .eco-grid { grid-template-columns: 1fr 1fr; }
+    .investor-grid { grid-template-columns: 1fr 1fr; }
+    .footer-inner { grid-template-columns: 1fr; }
+    #visao { padding: 6rem 1.5rem; }
+    footer { padding: 3rem 1.5rem; }
+    .diff-table { font-size: 0.8rem; }
+    .diff-table td, .diff-table th { padding: 0.75rem 0.75rem; }
+  }
+  @media (max-width: 600px) {
+    .eco-grid { grid-template-columns: 1fr; }
+    .investor-grid { grid-template-columns: 1fr; }
+    .hero-title { font-size: 2.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVEGAÇÃO -->
+<nav>
+  <div class="logo">J<span>-</span>US</div>
+  <ul class="nav-links">
+    <li><a href="#problema">Problema</a></li>
+    <li><a href="#solucao">Solução</a></li>
+    <li><a href="#ecossistema">Ecossistema</a></li>
+    <li><a href="#investidores">Investidores</a></li>
+  </ul>
+  <button class="nav-cta">Entrar no Ecossistema</button>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <canvas id="particle-canvas"></canvas>
+
+  <div class="hero-eyebrow">
+    <div class="eyebrow-dot"></div>
+    Web3 · Fintech · Comunidade · IA
+  </div>
+
+  <h1 class="hero-title">
+    A nova economia<br>
+    <span class="accent">começa localmente.</span>
+  </h1>
+
+  <p class="hero-sub">
+    Conectando pequenos negócios reais a uma infraestrutura econômica descentralizada, impulsionada por blockchain, cashback, comunidade e inteligência artificial.
+  </p>
+
+  <div class="hero-btns">
+    <button class="btn-primary">Entrar no Ecossistema</button>
+    <button class="btn-ghost">Explorar a J-US →</button>
+  </div>
+
+  <div class="hero-scroll">
+    <span>Rolar</span>
+    <div class="scroll-line"></div>
+  </div>
+</div>
+
+<!-- PROBLEMA -->
+<div id="problema" class="section-wrap">
+  <section>
+    <div class="reveal">
+      <div class="eyebrow-label">O Problema</div>
+      <h2 class="section-title">Um sistema falho que trava<br>a economia local.</h2>
+      <p class="section-sub" style="margin-bottom:2.5rem">Pequenos negócios estão presos em uma infraestrutura fragmentada e ultrapassada — enquanto a economia avança sem eles.</p>
+      <div class="problem-items">
+        <div class="problem-item">
+          <div class="problem-icon">💸</div>
+          <div>
+            <h4>Taxas Abusivas de Transação</h4>
+            <p>Bancos e processadoras cobram entre 2% e 5% por operação, corroendo silenciosamente a margem de negócios locais que já operam no limite.</p>
+          </div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-icon">🏦</div>
+          <div>
+            <h4>Sistema Bancário Ultrapassado</h4>
+            <p>Infraestrutura financeira construída para grandes corporações, não para o pequeno empreendedor. Liquidações lentas, preços opacos e zero personalização.</p>
+          </div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-icon">🔗</div>
+          <div>
+            <h4>Programas de Fidelidade Desconectados</h4>
+            <p>Cashback e recompensas isolados por estabelecimento, sem valor cruzado entre comerciantes e sem incentivo real para fortalecer o comércio local.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="problem-visual reveal">
+      <div class="old-system">
+        <span class="old-tag">Taxas Altas</span>
+        <div class="old-bar"></div>
+        <span class="old-tag">Dados Desconectados</span>
+        <div class="old-bar" style="width:100px"></div>
+        <span class="old-tag">Zero Transparência</span>
+        <div class="old-bar" style="width:130px"></div>
+        <span class="old-tag">Liquidação Lenta</span>
+        <div style="font-size:0.65rem; color:rgba(255,255,255,0.1); letter-spacing:0.1em; text-transform:uppercase; margin-top:1rem">Sistema Financeiro Tradicional</div>
+      </div>
+      <div class="vs-badge">VS</div>
+    </div>
+  </section>
+</div>
+
+<!-- SOLUÇÃO -->
+<div id="solucao" class="section-wrap">
+  <section style="max-width:900px; margin:0 auto; text-align:center">
+    <div class="reveal">
+      <div class="eyebrow-label">A Solução</div>
+      <h2 class="section-title">Um ciclo econômico<br>que se retroalimenta.</h2>
+      <p class="section-sub" style="margin:0 auto 1rem">Cada transação fortalece a rede. Cada usuário expande o ecossistema.</p>
+    </div>
+    <div class="flow-wrap reveal" style="margin-top:3.5rem">
+      <div class="flow-step">
+        <div class="flow-num">01</div>
+        <div class="flow-info">
+          <h4>Comerciante</h4>
+          <p>Pequenos negócios ingressam na rede J-US e passam a operar com rails de pagamento descentralizados de forma imediata.</p>
+        </div>
+        <div class="flow-icon">🏪</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">02</div>
+        <div class="flow-info">
+          <h4>Cashback J-US</h4>
+          <p>Cada compra gera cashback inteligente — distribuído automaticamente via blockchain, em tempo real, sem intermediários.</p>
+        </div>
+        <div class="flow-icon">⚡</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">03</div>
+        <div class="flow-info">
+          <h4>Usuário</h4>
+          <p>O consumidor ganha, retém e utiliza dentro do ecossistema — construindo patrimônio enquanto fortalece o comércio local.</p>
+        </div>
+        <div class="flow-icon">👤</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">04</div>
+        <div class="flow-info">
+          <h4>Reutilização na Rede</h4>
+          <p>O cashback retorna aos parceiros da rede, criando um ciclo econômico fechado que se expande com o uso.</p>
+        </div>
+        <div class="flow-icon">🔄</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">05</div>
+        <div class="flow-info">
+          <h4>Crescimento do Ecossistema</h4>
+          <p>Agentes de IA otimizam os fluxos, atraem novos comerciantes e escalam a rede de forma autônoma e contínua.</p>
+        </div>
+        <div class="flow-icon">📈</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ECOSSISTEMA -->
+<div id="ecossistema" class="section-wrap" style="background:var(--black)">
+  <section>
+    <div class="reveal">
+      <div class="eyebrow-label">Ecossistema</div>
+      <h2 class="section-title">Cinco pilares da<br>nova economia local.</h2>
+    </div>
+    <div class="eco-grid reveal">
+      <div class="eco-card">
+        <div class="eco-card-glow"></div>
+        <span class="eco-card-num">01</span>
+        <span class="eco-card-icon">💎</span>
+        <h3>Cashback Inteligente</h3>
+        <p>Cashback orientado por IA que se adapta ao comportamento do usuário, categoria do comerciante e volume da rede — recompensando a fidelidade com precisão.</p>
+      </div>
+      <div class="eco-card">
+        <div class="eco-card-glow"></div>
+        <span class="eco-card-num">02</span>
+        <span class="eco-card-icon">🌐</span>
+        <h3>Economia Comunitária</h3>
+        <p>Governança, votação e copropriedade. Cada participante tem voz ativa. Cada transação fortalece o coletivo e amplia o poder da comunidade.</p>
+      </div>
+      <div class="eco-card">
+        <div class="eco-card-glow"></div>
+        <span class="eco-card-num">03</span>
+        <span class="eco-card-icon">⛓</span>
+        <h3>Infraestrutura Blockchain</h3>
+        <p>Transparente, imutável e eficiente. Construído sobre rails de Camada 2 para velocidade máxima sem abrir mão da descentralização.</p>
+      </div>
+      <div class="eco-card">
+        <div class="eco-card-glow"></div>
+        <span class="eco-card-num">04</span>
+        <span class="eco-card-icon">🤖</span>
+        <h3>Crescimento com IA</h3>
+        <p>Análise preditiva, prevenção de fraudes, pontuação de comerciantes e otimização autônoma da rede — operando 24 horas por dia, sete dias por semana.</p>
+      </div>
+      <div class="eco-card">
+        <div class="eco-card-glow"></div>
+        <span class="eco-card-num">05</span>
+        <span class="eco-card-icon">🏘</span>
+        <h3>Rede de Negócios Locais</h3>
+        <p>De pequenos comércios a mercados urbanos — qualquer porte, qualquer segmento. A integração leva minutos. O crescimento começa imediatamente.</p>
+      </div>
+      <div class="eco-card" style="border-color:rgba(0,232,122,0.15); background:rgba(0,232,122,0.03)">
+        <div class="eco-card-glow" style="opacity:0.4"></div>
+        <span class="eco-card-num" style="color:rgba(0,232,122,0.5)">∞</span>
+        <span class="eco-card-icon">🚀</span>
+        <h3>Em Constante Expansão</h3>
+        <p>O ecossistema J-US é governado pela sua comunidade. Novos segmentos, parceiros e recursos estão sempre sendo desenvolvidos no horizonte.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- DIFERENCIAIS -->
+<div id="diferenciais" class="section-wrap">
+  <section>
+    <div class="reveal">
+      <div class="eyebrow-label">Por Que a J-US</div>
+      <h2 class="section-title">Utilidade real. Economia real.<br>Pessoas reais.</h2>
+      <p class="section-sub">A maioria dos projetos cripto é construída sobre especulação. A J-US é construída sobre circulação.</p>
+    </div>
+    <table class="diff-table reveal">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="col-old">Cripto Tradicional</th>
+          <th class="col-new">J-US</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Motor principal</td>
+          <td class="old-val">❌ Especulação e hype</td>
+          <td class="new-val">✅ Atividade econômica real</td>
+        </tr>
+        <tr>
+          <td>Utilidade</td>
+          <td class="old-val">❌ Fraca ou teórica</td>
+          <td class="new-val">✅ Uso diário no comércio</td>
+        </tr>
+        <tr>
+          <td>Comunidade</td>
+          <td class="old-val">❌ Traders de curto prazo</td>
+          <td class="new-val">✅ Negócios locais e usuários</td>
+        </tr>
+        <tr>
+          <td>Circulação</td>
+          <td class="old-val">❌ Valor sai do ecossistema</td>
+          <td class="new-val">✅ Economia de ciclo fechado</td>
+        </tr>
+        <tr>
+          <td>Escalabilidade</td>
+          <td class="old-val">❌ Dependente de hype</td>
+          <td class="new-val">✅ Cresce com a adoção</td>
+        </tr>
+        <tr>
+          <td>Visão de longo prazo</td>
+          <td class="old-val">❌ Pump de token e saída</td>
+          <td class="new-val">✅ Infraestrutura para décadas</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>
+
+<!-- INVESTIDORES -->
+<div id="investidores" class="section-wrap" style="background:var(--black)">
+  <section>
+    <div class="reveal">
+      <div class="eyebrow-label">Para Investidores</div>
+      <h2 class="section-title">Construído para crescimento<br>de longo prazo.</h2>
+      <p class="section-sub">A J-US não é uma aposta especulativa. É a infraestrutura para os próximos 20 anos do comércio digital local.</p>
+    </div>
+    <div class="investor-grid reveal">
+      <div class="metric-card">
+        <span class="metric-val">R$&nbsp;11T</span>
+        <span class="metric-label">Mercado global de pagamentos para PMEs</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-val">400M+</span>
+        <span class="metric-label">Pequenos negócios no mundo</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-val">92%</span>
+        <span class="metric-label">PMEs sem ou com serviço bancário limitado</span>
+      </div>
+    </div>
+    <div class="chart-area reveal">
+      <span class="chart-label">Projeção de crescimento da rede — horizonte de 5 anos</span>
+      <svg viewBox="0 0 1000 160" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="rgba(0,232,122,0.25)"/>
+            <stop offset="100%" stop-color="rgba(0,232,122,0)"/>
+          </linearGradient>
+        </defs>
+        <line x1="0" y1="40" x2="1000" y2="40" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="0" y1="80" x2="1000" y2="80" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="0" y1="120" x2="1000" y2="120" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <path d="M0 140 C150 135 200 128 300 115 C420 98 500 80 620 55 C740 30 850 15 1000 5 L1000 160 L0 160 Z" fill="url(#chartGrad)"/>
+        <path d="M0 140 C150 135 200 128 300 115 C420 98 500 80 620 55 C740 30 850 15 1000 5" fill="none" stroke="var(--green)" stroke-width="2"/>
+        <circle cx="0" cy="140" r="4" fill="var(--green)"/>
+        <circle cx="300" cy="115" r="4" fill="var(--green)"/>
+        <circle cx="620" cy="55" r="4" fill="var(--green)"/>
+        <circle cx="1000" cy="5" r="4" fill="var(--green)"/>
+        <text x="0" y="158" fill="rgba(200,212,224,0.3)" font-size="12" font-family="Inter">A1</text>
+        <text x="285" y="158" fill="rgba(200,212,224,0.3)" font-size="12" font-family="Inter">A2</text>
+        <text x="595" y="158" fill="rgba(200,212,224,0.3)" font-size="12" font-family="Inter">A3–4</text>
+        <text x="960" y="158" fill="rgba(200,212,224,0.3)" font-size="12" font-family="Inter">A5</text>
+      </svg>
+    </div>
+  </section>
+</div>
+
+<!-- VISÃO -->
+<div id="visao">
+  <div class="vision-grid"></div>
+  <svg class="city-lines" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice">
+    <g stroke="rgba(0,232,122,0.06)" stroke-width="1" fill="none">
+      <line x1="100" y1="400" x2="300" y2="200"/><line x1="300" y1="200" x2="600" y2="150"/>
+      <line x1="600" y1="150" x2="900" y2="250"/><line x1="900" y1="250" x2="1100" y2="100"/>
+      <line x1="200" y1="450" x2="500" y2="300"/><line x1="500" y1="300" x2="700" y2="200"/>
+      <line x1="700" y1="200" x2="1000" y2="350"/><line x1="50" y1="350" x2="400" y2="250"/>
+      <line x1="400" y1="250" x2="750" y2="350"/><line x1="750" y1="350" x2="1150" y2="200"/>
+    </g>
+    <g fill="rgba(0,232,122,0.15)">
+      <circle cx="300" cy="200" r="4"/><circle cx="600" cy="150" r="5"/>
+      <circle cx="900" cy="250" r="4"/><circle cx="500" cy="300" r="3"/>
+      <circle cx="700" cy="200" r="4"/><circle cx="750" cy="350" r="3"/>
+    </g>
+  </svg>
+  <div style="position:relative; z-index:2; max-width:800px; margin:0 auto; text-align:center" class="reveal">
+    <div class="eyebrow-label">Nossa Visão</div>
+    <h2 class="section-title">Não estamos construindo<br>mais uma criptomoeda.</h2>
+    <div class="vision-quote">
+      Estamos construindo uma <strong>nova infraestrutura econômica</strong> — que devolve poder de compra real às comunidades locais, conectando o mundo físico ao futuro descentralizado.
+    </div>
+    <div class="vision-cta">
+      <button class="btn-primary" style="font-size:1rem; padding:1.1rem 2.8rem">Entrar no Ecossistema</button>
+    </div>
+  </div>
+</div>
+
+<!-- RODAPÉ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo">J<span style="color:var(--green)">-</span>US</span>
+      <div class="footer-slogan">Junte-se a Nós. Cresça Junto.</div>
+    </div>
+    <div class="footer-links">
+      <h5>Ecossistema</h5>
+      <ul>
+        <li><a href="#">Whitepaper</a></li>
+        <li><a href="#">Visão Geral</a></li>
+        <li><a href="#">Tokenomia</a></li>
+        <li><a href="#">Roadmap</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h5>Empresa</h5>
+      <ul>
+        <li><a href="#">Investidores</a></li>
+        <li><a href="#">Comunidade</a></li>
+        <li><a href="#">Contato</a></li>
+        <li><a href="#">Kit de Imprensa</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 J-US. Todos os direitos reservados.</span>
+    <span class="footer-green">Junte-se a Nós. Cresça Junto.</span>
+  </div>
+</footer>
+
+<script>
+/* Sistema de Partículas */
+(function() {
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [], nodes = [];
+
+  function resize() {
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  for (let i = 0; i < 12; i++) {
+    nodes.push({
+      x: Math.random() * W, y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
+      r: Math.random() * 2 + 2
+    });
+  }
+  for (let i = 0; i < 60; i++) {
+    particles.push({
+      x: Math.random() * W, y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.5, vy: (Math.random() - 0.5) * 0.5,
+      size: Math.random() * 1.5 + 0.5, alpha: Math.random() * 0.4 + 0.1
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    nodes.forEach(n => {
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > W) n.vx *= -1;
+      if (n.y < 0 || n.y > H) n.vy *= -1;
+      ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0,232,122,0.5)'; ctx.fill();
+    });
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
+        const d = Math.sqrt(dx*dx + dy*dy);
+        if (d < 200) {
+          ctx.beginPath(); ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.strokeStyle = `rgba(0,232,122,${0.15 * (1 - d/200)})`;
+          ctx.lineWidth = 0.5; ctx.stroke();
+        }
+      }
+    }
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0,232,122,${p.alpha})`; ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* Animação de Scroll */
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), 100);
+  });
+}, { threshold: 0.12 });
+reveals.forEach(r => io.observe(r));
+</script>
+</body>
+</html>
